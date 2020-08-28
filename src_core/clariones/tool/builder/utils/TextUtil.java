@@ -35,7 +35,7 @@ public class TextUtil {
             return "";
         }
         if (inStyle_nameAsThis(inputName)){
-            return inputName;
+            return uncapFirst(inputName);
         }
         List<String> segments = splitToSegments(inputName, true);
         AtomicBoolean first = new AtomicBoolean(true);
@@ -50,7 +50,7 @@ public class TextUtil {
             return "";
         }
         if (inStyle_NameAsThis(inputName)){
-            return inputName;
+            return capFirst(inputName);
         }
         List<String> segments = splitToSegments(inputName, true);
         List<String> results = segments.stream().map(TextUtil::capFirst).collect(Collectors.toList());
@@ -130,10 +130,10 @@ public class TextUtil {
     }
 
     protected static boolean inStyle_nameAsThis(String inputName) {
-        return inputName.trim().matches("[a-z\\$][^ _\\-]*");
+        return inputName.trim().matches("[A-Za-z\\$][^ _\\-]*");
     }
     private static boolean inStyle_NameAsThis(String inputName) {
-        return inputName.trim().matches("[A-Z\\$][^ _\\-]*");
+        return inputName.trim().matches("[A-Za-z\\$][^ _\\-]*");
     }
     private static boolean inStyle_NAME_AS_THIS(String inputName) {
         return inputName.trim().matches("[^a-z \\-]+");
@@ -153,4 +153,12 @@ public class TextUtil {
         }
         return sb.append(repeated).toString();
     }
+
+    public static String uncapFirst(String tn) {
+        if (tn == null || tn.isEmpty()) {
+            return tn;
+        }
+        return Character.toLowerCase(tn.charAt(0)) + tn.substring(1);
+    }
+
 }

@@ -114,17 +114,11 @@ public class Utils {
     }
 
     public static String uncapFirst(String tn) {
-        if (tn == null || tn.isEmpty()) {
-            return tn;
-        }
-        return Character.toLowerCase(tn.charAt(0)) + tn.substring(1);
+        return TextUtil.uncapFirst(tn);
     }
 
     public static String capFirst(String tn) {
-        if (tn == null || tn.isEmpty()) {
-            return tn;
-        }
-        return Character.toUpperCase(tn.charAt(0)) + tn.substring(1);
+        return TextUtil.capFirst(tn);
     }
 
     public static String getClassNameFromFullName(String typeClassName) {
