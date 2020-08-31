@@ -1,5 +1,10 @@
 package clariones.tool.builder;
 
+import cla.edg.page.PageBuilder;
+import cla.edg.pageflow.BasePageFlowScript;
+import cla.edg.pageflow.PageFlowScript;
+import cla.edg.pageflow.QueryInfo;
+import clariones.tool.builder.utils.InternalNaming;
 import freemarker.cache.StringTemplateLoader;
 import freemarker.core.ParseException;
 import freemarker.template.*;
@@ -156,5 +161,34 @@ public abstract class BaseGenerator {
         data.put("script", script);
         data.put("NAMING", new Utils());
         return data;
+    }
+
+    protected void verifyPageBuilder(PageFlowScript script, PageBuilder pageBuilder) {
+        verifyPageBuilderQueryExists(script, pageBuilder);
+        verifyPageBuilderRequestExists(script, pageBuilder.getItemRequestName());
+        verifyPageBuilderRequestExists(script, pageBuilder.getNextPageRequestName());
+    }
+
+    protected void verifyPageBuilderRequestExists(PageFlowScript script, String reqName) {
+       boolean exists = script.getRequests().stream().anyMatch(it->it.getName().equals(reqName));
+       if (exists){
+           return;
+       }
+       throw new RuntimeException("声明的查询\""+reqName+"\"不存在");
+    }
+
+    protected void verifyPageBuilderQueryExists(PageFlowScript script, PageBuilder pageBuilder) {
+        if (pageBuilder.getQueryTargetBean() == null){
+            return;
+        }
+        if (pageBuilder.getQueryListName() == null){
+            throw new RuntimeException("查询必须声明目标类型和名称,否则不能区分("+pageBuilder.getDeclaredPosition()+")");
+        }
+        String targetQueryName = InternalNaming.makeQueryName(pageBuilder.getQueryTargetBean(), pageBuilder.getQueryListName());
+        QueryInfo queryInfo = script.findQueryByName(targetQueryName);
+        if (queryInfo == null) {
+            throw new RuntimeException("声明的查询未定义("+pageBuilder.getDeclaredPosition()+")");
+        }
+        pageBuilder.setRelatedQuery(queryInfo);
     }
 }
