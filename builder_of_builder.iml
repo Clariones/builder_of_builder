@@ -6,6 +6,7 @@
       <sourceFolder url="file://$MODULE_DIR$/src_bob" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src_path_map" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src_core" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src_bob_pageflow" isTestSource="false" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

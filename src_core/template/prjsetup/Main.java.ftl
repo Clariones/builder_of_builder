@@ -85,9 +85,10 @@ public class Main {
 		// System.out.println(jsonStr);
 
 		PageFlowGenerator generator = new PageFlowGenerator();
-		generator.setBaseOutputFolder(OUTPUT_JAVA_FOLDER +"/" + OUTPUT_PAGEFLOW_FOLDER_NAME);
-		generator.setBaseTempalteFolder("./template");
-		generator.generateWithScript(script);
+        generator.setScript(script);
+        List<GenrationResult> resultList = generator.runJob();
+        generator.saveToFiles( Utils.put("ALL", new File(OUTPUT_JAVA_FOLDER +"/" + OUTPUT_PAGEFLOW_FOLDER_NAME))
+                .into_map(File.class), resultList);
 	}
 
     private static void generateChangeRequestForm(Map<String, Map<String, Object>> script) throws Exception  {

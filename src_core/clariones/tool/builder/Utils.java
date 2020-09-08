@@ -4,6 +4,7 @@ import clariones.tool.builder.utils.*;
 
 import java.io.File;
 import java.io.FileWriter;
+import java.nio.charset.Charset;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -227,4 +228,17 @@ public class Utils {
         return name.trim().toLowerCase().replace('_', ' ');
     }
 
+    public static String readFileAsString(File file, Charset charset) throws Exception{
+        return FileUtil.readFileAsString(file, charset);
+    }
+
+    public static boolean nameEquals(String name1, String name2) {
+        if (name1 == name2){
+            return true;
+        }
+        if (name1 == null || name2 == null){
+            return false;
+        }
+        return TextUtil.name_as_this(name1).equals(TextUtil.name_as_this(name2));
+    }
 }
