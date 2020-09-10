@@ -34,6 +34,9 @@ public class Utils {
         return TextUtil.message(format, params);
     }
 
+    public static String toJson(Object object) {
+        return toJson(object, true);
+    }
     public static String toJson(Object object, boolean pretty) {
         return TextUtil.toJson(object, pretty);
     }
@@ -240,5 +243,9 @@ public class Utils {
             return false;
         }
         return TextUtil.name_as_this(name1).equals(TextUtil.name_as_this(name2));
+    }
+
+    public static String unescapeHtml(String s) {
+        return TextUtil.unescapeHtml(s);
     }
 }

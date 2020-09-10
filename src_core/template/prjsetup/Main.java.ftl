@@ -76,6 +76,7 @@ public class Main {
 		generator.setAllSpec(builder.build());
 		List<GenrationResult> resultList = generator.runJob();
 		generator.saveToFiles( Utils.put("ALL", new File(OUTPUT_JAVA_FOLDER))
+		        .put("process.xml", new File(OUTPUT_MODEL_FOLDER))
 				.into_map(File.class), resultList);
 	}
 

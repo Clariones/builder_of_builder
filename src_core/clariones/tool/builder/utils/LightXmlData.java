@@ -1,5 +1,6 @@
 package clariones.tool.builder.utils;
 
+import clariones.tool.builder.Utils;
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
@@ -350,7 +351,11 @@ public class LightXmlData {
 
 	public void addAttribute(String name, Object value) {
 		ensureAttributes();
-		attributes.put(name, value);
+		if (value instanceof String){
+			attributes.put(name, Utils.unescapeHtml(value.toString()).trim());
+		}else{
+			attributes.put(name, value);
+		}
 	}
 
 	private void ensureAttributes() {

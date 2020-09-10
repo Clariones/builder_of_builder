@@ -88,7 +88,7 @@ public class TextUtil {
 
 
     protected static List<String> splitToSegments(String inputName, boolean toLower) {
-        List<String> segments = Arrays.asList(inputName.split("[ _\\-]"));
+        List<String> segments = new ArrayList<>(Arrays.asList(inputName.split("[ _\\-]")));
         Iterator<String> it = segments.iterator();
         List<String> resultSegs = new ArrayList();
         while(it.hasNext()){
@@ -161,4 +161,10 @@ public class TextUtil {
         return Character.toLowerCase(tn.charAt(0)) + tn.substring(1);
     }
 
+    public static String unescapeHtml(String s) {
+        if (s == null){
+            return s;
+        }
+        return s.replace("&nbsp;", " ");
+    }
 }
