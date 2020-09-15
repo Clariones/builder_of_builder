@@ -25,7 +25,7 @@ public interface PathMap {
      * @param beRelated: true: 要求被找的这个节点, 必须是和现有的节点有关联, 找不到关联则返回null; false: 不需要有关联, 找不到就创建一个新的
      * @return 此节点的'别名'. 别名将会在全局唯一, 一般是 type+id 这样的结构.
      */
-    String startFrom(String  nodeName,  boolean beRelated);
+    String startFrom(String  nodeName,  boolean beRelated, String declaredPostion);
 
     /**
      * 从当前指向的节点, 向下一个节点前进.

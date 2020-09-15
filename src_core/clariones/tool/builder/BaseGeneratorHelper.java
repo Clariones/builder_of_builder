@@ -13,4 +13,7 @@ public class BaseGeneratorHelper {
     public String name_as_this(String inputName){
         return Utils.name_as_this(inputName);
     }
+    public void log(Object message) {
+        System.out.println(Utils.toJson(message));
+    }
 }

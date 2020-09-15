@@ -12,13 +12,18 @@ public abstract class BasePathMapImpl extends BaseBuilderClass implements PathMa
     protected FootHolder currentFootHolder = null;
     protected Connector currentConnector = null;
 
+    protected FootHolder firstFootHolder = null;
+    protected Connector firstConnector = null;
+    protected String startNodeName = null;
+
     public String nextAlias(){
         return "T" + connectorCount.getAndIncrement();
     }
 
     @Override
-    public String startFrom(String nodeName, boolean beRelated) {
-        debug("start from %s", nodeName);
+    public String startFrom(String nodeName, boolean beRelated, String declaredPostion) {
+        debug("start from %s(%s)", nodeName,declaredPostion);
+        boolean isEmpty = this.getAll().size() == 0;
         FootHolder startNode = findFootHolderByName(nodeName);
         if (startNode == null && beRelated){
             // 如果要求是有关联的点,但是找不到,那么就返回null
@@ -30,15 +35,27 @@ public abstract class BasePathMapImpl extends BaseBuilderClass implements PathMa
                 currentConnector = getFootHolderOnlyOneConnector(startNode);
                 return currentConnector.getAliasName();
             }
-            error("节点%s不能用名字唯一确定,需要更靠近根源的描述", nodeName);
+            // 如果是查找目标的话, 那么 currentFootHolder 就应该是起点, currentConnector就应该是第一条connector
+            if (nodeName.equals(startNodeName)){
+                currentFootHolder = firstFootHolder;
+                currentConnector = firstConnector;
+                return currentConnector.getAliasName();
+            }
+            error("节点%s不能用名字唯一确定,需要更靠近根源的描述(%s)", nodeName, declaredPostion);
         }
         // 现在 startNode 一定为null, 并且 beRelated 是force
         // 那么, 我们就应该新建一个 footHolder, 并给与其别名
         startNode = addNewFootHolder(nodeName);
+
         Connector beginConnector = addBeginConnector(startNode);
         debug("节点%s是一个起点,别名:%s",nodeName, beginConnector.getAliasName());
         currentFootHolder = startNode;
         currentConnector = beginConnector;
+        if (isEmpty) {
+            firstFootHolder = currentFootHolder;
+            firstConnector = currentConnector;
+            startNodeName = nodeName;
+        }
         return beginConnector.getAliasName();
     }
 

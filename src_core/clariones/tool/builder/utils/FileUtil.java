@@ -17,13 +17,16 @@ public class FileUtil {
         }
     }
 
-    public static String readFileAsString(File file, Charset charset) throws Exception{
+    public static String readFileAsString(File file, Charset charset){
         if (!file.exists()){
-            throw new IOException("file " + file.getAbsolutePath()+" not exists");
+            throw new RuntimeException("file " + file.getAbsolutePath()+" not exists");
         }
         try (FileInputStream fin = new FileInputStream(file)){
             byte[] content = readAsBytes(fin);
             return new String(content, charset);
+        }catch (Exception e){
+            e.printStackTrace();
+            throw new RuntimeException(e);
         }
     }
 
@@ -35,5 +38,28 @@ public class FileUtil {
             bout.write(buf,0,size);
         }
         return bout.toByteArray();
+    }
+
+    public static File findLatestMatchedFile(File checkingFile, File currentFile, String fileNamePattern) {
+        if (checkingFile.isFile()){
+            if (currentFile != null) {
+                if (checkingFile.lastModified() < currentFile.lastModified()){
+                    return currentFile;
+                }
+            }
+            if (checkingFile.getAbsolutePath().matches(fileNamePattern)){
+                return checkingFile;
+            }
+            return currentFile;
+        }
+        // 是个文件夹
+        File[] files = checkingFile.listFiles();
+        if (files == null || files.length == 0){
+            return currentFile;
+        }
+        for (File file : files) {
+            currentFile = findLatestMatchedFile(file, currentFile, fileNamePattern);
+        }
+        return currentFile;
     }
 }

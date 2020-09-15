@@ -21,7 +21,7 @@ public class TextUtil {
         if (params == null || params.length == 0) {
             return String.valueOf(format);
         }
-        if (format instanceof String){
+        if (format instanceof String && ((String) format).contains("%")){
             return String.format((String) format, params);
         }
         List<Object> list = new ArrayList<>();
@@ -34,6 +34,7 @@ public class TextUtil {
         if (isBlank(inputName)){
             return "";
         }
+        inputName = inputName.trim();
         if (inStyle_nameAsThis(inputName)){
             return uncapFirst(inputName);
         }
@@ -49,6 +50,7 @@ public class TextUtil {
         if (isBlank(inputName)){
             return "";
         }
+        inputName = inputName.trim();
         if (inStyle_NameAsThis(inputName)){
             return capFirst(inputName);
         }
@@ -65,6 +67,7 @@ public class TextUtil {
         if (isBlank(inputName)){
             return "";
         }
+        inputName = inputName.trim();
         if (inStyle_NAME_AS_THIS(inputName)){
             return inputName;
         }
@@ -77,6 +80,7 @@ public class TextUtil {
         if (isBlank(inputName)){
             return "";
         }
+        inputName = inputName.trim();
         if (inStyle_name_as_this(inputName)){
             return inputName;
         }

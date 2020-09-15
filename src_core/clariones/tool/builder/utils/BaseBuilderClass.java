@@ -10,7 +10,7 @@ public class BaseBuilderClass {
 //        return message;
 //    }
     protected String debug(Object format, Object... params) {
-        return Utils.debug(1, format, params);
+        return Utils.debug_on(1, format, params);
     }
 
     //    protected void error(Object format, Object ... params){
@@ -18,6 +18,6 @@ public class BaseBuilderClass {
 //        throw new RuntimeException(message);
 //    }
     protected void error(Object format, Object... params) {
-        Utils.error(1, format, params);
+        Utils.error_on(1, format, params);
     }
 }

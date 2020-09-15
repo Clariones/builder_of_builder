@@ -1,9 +1,9 @@
 package clariones.tool.builder;
 
 import clariones.tool.builder.utils.*;
+import com.google.gson.Gson;
 
 import java.io.File;
-import java.io.FileWriter;
 import java.nio.charset.Charset;
 import java.util.*;
 import java.util.regex.Matcher;
@@ -62,10 +62,10 @@ public class Utils {
     }
 
     public static String debug(Object format, Object... params) {
-        return debug(1, format, params);
+        return debug_on(1, format, params);
     }
 
-    public static String debug(int uplevel, Object format, Object... params) {
+    public static String debug_on(int uplevel, Object format, Object... params) {
         StackTraceElement st = new Throwable().getStackTrace()[1 + uplevel];
         String causeClass = st.getClassName();
         String message = Utils.message(format, params);
@@ -75,12 +75,13 @@ public class Utils {
         return message;
     }
 
-    public static void error(Object format, Object... params) {
-        error(2, format, params);
+    public static <T> T error(Object format, Object... params) {
+        error_on(2, format, params);
+        return null;
     }
 
-    public static void error(int skipStacks, Object format, Object... params) {
-        String message = debug(skipStacks, format, params);
+    public static Object error_on(int skipStacks, Object format, Object... params) {
+        String message = debug_on(skipStacks, format, params);
         throw new RuntimeException(message);
     }
 
@@ -231,7 +232,7 @@ public class Utils {
         return name.trim().toLowerCase().replace('_', ' ');
     }
 
-    public static String readFileAsString(File file, Charset charset) throws Exception{
+    public static String readFileAsString(File file, Charset charset){
         return FileUtil.readFileAsString(file, charset);
     }
 
@@ -247,5 +248,20 @@ public class Utils {
 
     public static String unescapeHtml(String s) {
         return TextUtil.unescapeHtml(s);
+    }
+
+    public static <T> T fromJson(String jsonStr, Class<T> clazz) {
+        return new Gson().fromJson(jsonStr, clazz);
+    }
+
+    public static Integer getInt(Object value, Integer defaultValue) {
+        return DataTypeUtil.getInteger(value, defaultValue);
+    }
+    public static Boolean getBoolean(Object value, Boolean defaultValue) {
+        return DataTypeUtil.getBoolean(value, defaultValue);
+    }
+
+    public static String getString(Object value, String defaultValue) {
+        return DataTypeUtil.getString(value, defaultValue);
     }
 }
