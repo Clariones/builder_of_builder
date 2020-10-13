@@ -106,13 +106,13 @@ public abstract class BaseGenerator {
                         return;
                     case GenrationResult.ACTION_CREATE_WHEN_NEED:
                         if (fileExisted) {
-                            System.out.println(" : skip " + it.getFileName());
+                            Utils.debug(" : skip " + it.getFileName());
                             return;
                         }
                         Utils.saveIntoFile(tgtFile, it.getContent());
                         return;
                     default:
-                        System.out.println(" : you need copy below content and handle it yourself\r\n " + it.getContent());
+                        Utils.debug(" : you need copy below content and handle it yourself\r\n " + it.getContent());
                 }
             } catch (Exception e) {
                 e.printStackTrace();

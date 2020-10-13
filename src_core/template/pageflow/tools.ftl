@@ -68,3 +68,20 @@
 	</#if>
 </#function>
 
+<#macro getRequestRequestMethodParameterNames request>
+	<@compress single_line=true>
+		<#if request.parameters?has_content>
+			<#list request.parameters as param>
+				<#if param.typeName == "form">
+				    <#if param.formName != "free form">
+				, ctx.getFormData()
+				    </#if>
+				<#elseif param.asVariable>
+				, ":${NAMING.toCamelCase(param.paramName)?uncap_first}"
+				<#else>
+				, ctx.get${NAMING.toCamelCase(param.paramName)}()
+				</#if>
+			</#list>
+		</#if>
+	</@>
+</#macro>

@@ -1,8 +1,12 @@
 package clariones.tool.builder.utils;
 
+import clariones.tool.builder.Utils;
+
 import java.io.*;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class FileUtil {
     public static void saveIntoFile(File file, String content) throws Exception {
@@ -13,7 +17,7 @@ public class FileUtil {
         try(FileWriter fout = new FileWriter(file)) {
             fout.write(content);
             fout.flush();
-            System.out.println("write into " + file.getCanonicalPath());
+            Utils.debug("write into " + file.getCanonicalPath());
         }
     }
 
@@ -47,7 +51,9 @@ public class FileUtil {
                     return currentFile;
                 }
             }
-            if (checkingFile.getAbsolutePath().matches(fileNamePattern)){
+            Pattern ptn = Pattern.compile(fileNamePattern);
+            Matcher m = ptn.matcher(checkingFile.getAbsolutePath());
+            if (m.find()){
                 return checkingFile;
             }
             return currentFile;
